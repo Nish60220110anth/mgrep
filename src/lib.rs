@@ -84,19 +84,19 @@ pub fn run(query: &Query) {
     check_file(query.file_name, &path); // If file doesn't exit- it exits
                                         // so here the retured value must be true
     let content = get_content(&path);
-    let vec: Vec<String> = search_query(query.query, &content);
+    let vec: Vec<(usize, String)> = search_query(query.query, &content);
 
-    for line in vec {
-        println!("{}", line);
+    for (pos, line) in vec {
+        println!("{}  : {}", pos, line);
     }
 }
 
-fn search_query<'a>(query: &String, contents: &'a String) -> Vec<String> {
-    let mut line_res: Vec<String> = Vec::new();
+fn search_query<'a>(query: &String, contents: &'a String) -> Vec<(usize, String)> {
+    let mut line_res: Vec<(usize, String)> = Vec::new();
 
-    for line in contents.lines() {
-        if line.to_lowercase().contains(&query.to_lowercase()) {
-            line_res.push(String::from(line));
+    for (pos, line) in contents.lines().enumerate() {
+        if line.contains(query) {
+            line_res.push((pos, String::from(line.replace(query, &query.green()))));
         }
     }
     line_res
