@@ -11,7 +11,7 @@ fn print_error(msg: String) -> () {
     process::exit(0);
 }
 
-// Contains reference to two strings in the args
+/// Query , fileName class 
 pub struct Query<'a> {
     pub query: &'a String,
     pub file_name: &'a String,
@@ -81,8 +81,7 @@ pub fn run(query: &Query) {
     );
 
     let path = path::Path::new(query.file_name);
-    check_file(query.file_name, &path); // If file doesn't exit- it exits
-                                        // so here the retured value must be true
+    check_file(query.file_name, &path);
     let content = get_content(&path);
     let vec: Vec<(usize, String)> = search_query(query.query, &content);
 
